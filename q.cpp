@@ -17,7 +17,15 @@ if(qid == -1)
 {
 	std::cout << "Ошибка создания очереди\n";
 }
-
+char buf[20] = {0};
+int r = mq_receive(qid, buf, 20, NULL);
+if(r != -1)
+{
+std::cout << "Ошибка на приеме сообщения\n";
+return -2;
+}
+int file = open("message.txt", O_CREAT | O_TRUNC | O_WRONLY, 0777);
+write(file, buf, r);
 
 return 0;
 }
